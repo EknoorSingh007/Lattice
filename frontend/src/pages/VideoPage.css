@@ -1,0 +1,90 @@
+.video-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #1e1e2f;
+    color: white;
+    overflow: hidden;
+}
+
+.video-grid {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 1rem;
+    background-color: #121212;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.video-player {
+    background-color: #000;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.partner-view {
+    flex: 1 1 60%;
+    max-width: 960px;
+    min-height: 400px;
+    width: 100%;
+    height: auto;
+}
+
+.self-view {
+    position: absolute;
+    bottom: 5rem;
+    right: 1.5rem;
+    width: 240px;
+    height: 135px;
+    border: 2px solid white;
+    z-index: 10;
+}
+
+.video-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.control-btn.active {
+    background-color: #ef4444;
+}
+
+.control-btn.hang-up {
+    background-color: #ef4444;
+}
+
+.control-btn.hang-up:hover {
+    background-color: #dc2626;
+}
