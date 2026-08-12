@@ -267,6 +267,37 @@
   transform: scale(1.05);
 }
 
+.schedule-button {
+  background-color: var(--bg-tertiary, #f1f5f9);
+  color: #64748b;
+  border: 1px solid var(--border-color);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.schedule-button:hover {
+  background-color: #e2e8f0;
+  color: #334155;
+  transform: scale(1.05);
+}
+
+[data-theme="dark"] .schedule-button {
+  background-color: var(--bg-tertiary);
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .schedule-button:hover {
+  background-color: #334155;
+  color: #e2e8f0;
+}
+
 /* Session Request Card in Chat */
 .session-request-card {
   max-width: 320px;

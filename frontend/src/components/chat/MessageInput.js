@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Calendar } from 'lucide-react';
 import { useAuthContext } from '../../hooks/useAuth';
 import { useParams } from 'react-router-dom';
 import { useSocket } from '../../context/SocketContext';
 
-const MessageInput = ({ setMessages }) => {
+const MessageInput = ({ setMessages, onScheduleClick }) => {
   const [message, setMessage] = useState('');
   const { user } = useAuthContext();
   const { receiverId } = useParams();
@@ -28,6 +28,14 @@ const MessageInput = ({ setMessages }) => {
 
   return (
     <form className="message-input-form" onSubmit={handleSubmit}>
+      <button 
+        type="button" 
+        onClick={onScheduleClick} 
+        className="schedule-button"
+        title="Schedule Session"
+      >
+        <Calendar size={20} />
+      </button>
       <input
         type="text"
         placeholder="Type your message..."

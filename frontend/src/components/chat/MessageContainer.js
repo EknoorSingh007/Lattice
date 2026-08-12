@@ -124,15 +124,10 @@ const handleSchedule = async (title, dateTime, roomId) => {
                 ))}
                 <div ref={messagesEndRef} />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <button
-                    onClick={() => setShowScheduleModal(true)}
-                    style={{ margin: '0 1rem', backgroundColor: '#667eea', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer' }}
-                >
-                    <Calendar size={18} style={{ marginRight: 6 }} /> Schedule Session
-                </button>
-                <MessageInput setMessages={setMessages} />
-            </div>
+            <MessageInput 
+                setMessages={setMessages} 
+                onScheduleClick={() => setShowScheduleModal(true)} 
+            />
             <ScheduleSessionModal
                 isOpen={showScheduleModal}
                 onClose={() => setShowScheduleModal(false)}
