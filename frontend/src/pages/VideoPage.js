@@ -163,29 +163,75 @@ const VideoPage = () => {
     }
 
     return (
-        <div className="video-page fixed inset-0 z-50 bg-gray-900 text-white overflow-hidden">
-            {sessionDetails && (
-                <div className="absolute top-6 left-6 z-40 bg-black/50 text-white px-6 py-3 rounded-xl backdrop-blur-sm border border-white/10">
-                    <h2 className="text-2xl font-bold">{sessionDetails.title}</h2>
-                    <p className="text-gray-300 flex items-center gap-2 mt-1">
+        <div className="flex flex-col h-screen w-screen bg-[#202124] text-white overflow-hidden font-sans">
+            
+            {/* Top Bar (Time / Session Info) */}
+            <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-50 pointer-events-none">
+                <div className="flex items-center gap-4 text-sm text-gray-300">
+                    <span className="font-medium">{sessionDetails?.title || 'Session'}</span>
+                    <span className="w-px h-4 bg-gray-500"></span>
+                    <span className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        In session with {partnerName}
-                    </p>
+                        {partnerName}
+                    </span>
                 </div>
-            )}
-            <div className="video-grid h-full w-full relative">
-                <video playsInline muted ref={myVideo} autoPlay className="video-player self-view absolute bottom-24 right-6 w-48 md:w-64 aspect-video rounded-xl border-2 border-white/20 shadow-2xl z-30 object-cover bg-gray-800" />
-                <video playsInline ref={userVideo} autoPlay className="video-player partner-view w-full h-full object-cover bg-gray-900 absolute inset-0 z-10" />
             </div>
-            <div className="video-controls absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent flex justify-center items-center gap-4 z-40">
-                <button onClick={handleToggleMute} className={`control-btn w-16 h-16 flex items-center justify-center rounded-full transition-all ${isMuted ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
-                    {isMuted ? <MicOff size={28} className="text-white" /> : <Mic size={28} className="text-white" />}
+
+            {/* Main Video Area */}
+            <div className="flex-grow flex justify-center items-center p-4 lg:p-6 pb-2 relative">
+                {/* Partner Video Container */}
+                <div className="w-full h-full relative rounded-2xl overflow-hidden bg-[#3c4043] shadow-lg flex justify-center items-center">
+                    <video 
+                        playsInline 
+                        ref={userVideo} 
+                        autoPlay 
+                        className="w-full h-full object-cover" 
+                    />
+                    
+                    {/* Partner Name Label */}
+                    <div className="absolute bottom-4 left-4 bg-black/60 px-3 py-1.5 rounded text-sm font-medium tracking-wide">
+                        {partnerName.toUpperCase()}
+                    </div>
+                </div>
+
+                {/* Self Video (PiP) */}
+                <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 w-48 lg:w-72 aspect-video rounded-xl overflow-hidden bg-[#3c4043] shadow-2xl border border-gray-600/50">
+                    <video 
+                        playsInline 
+                        muted 
+                        ref={myVideo} 
+                        autoPlay 
+                        className="w-full h-full object-cover" 
+                    />
+                    
+                    {/* Self Name Label */}
+                    <div className="absolute bottom-2 left-2 bg-black/60 px-2 py-1 rounded text-xs font-medium">
+                        YOU
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom Controls Bar */}
+            <div className="h-20 lg:h-24 bg-[#202124] flex items-center justify-center gap-4 px-6 z-40 shrink-0">
+                <button 
+                    onClick={handleToggleMute} 
+                    className={`w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center rounded-full transition-all ${isMuted ? 'bg-[#ea4335] hover:bg-[#d93025]' : 'bg-[#3c4043] hover:bg-[#4a4d51]'}`}
+                >
+                    {isMuted ? <MicOff size={22} /> : <Mic size={22} />}
                 </button>
-                <button onClick={handleToggleCamera} className={`control-btn w-16 h-16 flex items-center justify-center rounded-full transition-all ${isCameraOff ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
-                    {isCameraOff ? <VideoOff size={28} className="text-white" /> : <Video size={28} className="text-white" />}
+                
+                <button 
+                    onClick={handleToggleCamera} 
+                    className={`w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center rounded-full transition-all ${isCameraOff ? 'bg-[#ea4335] hover:bg-[#d93025]' : 'bg-[#3c4043] hover:bg-[#4a4d51]'}`}
+                >
+                    {isCameraOff ? <VideoOff size={22} /> : <Video size={22} />}
                 </button>
-                <button onClick={handleHangUp} className="control-btn hang-up w-16 h-16 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-700 transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                    <PhoneOff size={28} className="text-white" />
+                
+                <button 
+                    onClick={handleHangUp} 
+                    className="h-10 lg:h-12 px-6 lg:px-8 rounded-full bg-[#ea4335] hover:bg-[#d93025] flex items-center justify-center transition-all"
+                >
+                    <PhoneOff size={22} />
                 </button>
             </div>
         </div>
