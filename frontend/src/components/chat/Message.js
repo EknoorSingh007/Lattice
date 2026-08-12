@@ -55,10 +55,12 @@ const Message = ({ message }) => {
         const jsonData = message.message.replace('[SESSION_REQUEST]', '');
         return (
             <div className={`message-wrapper ${bubbleAlignment}`}>
-                <SessionRequestCard data={jsonData} fromMe={fromMe} />
-                <span className="message-time" style={{ textAlign: fromMe ? 'right' : 'left', display: 'block', marginTop: '4px' }}>
-                    {formattedTime}
-                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start' }}>
+                    <SessionRequestCard data={jsonData} fromMe={fromMe} />
+                    <span className="message-time" style={{ textAlign: fromMe ? 'right' : 'left', display: 'block', marginTop: '4px' }}>
+                        {formattedTime}
+                    </span>
+                </div>
             </div>
         );
     }
@@ -69,29 +71,35 @@ const Message = ({ message }) => {
     if (isLegacySession) {
         return (
             <div className={`message-wrapper ${bubbleAlignment}`}>
-                <div className={`session-request-card ${chatBubbleClass}`}>
-                    <div className="session-card-header">
-                        <Calendar size={20} className="session-card-icon" />
-                        <span className="session-card-label">Session Proposal</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start' }}>
+                    <div className={`session-request-card ${chatBubbleClass}`}>
+                        <div className="session-card-header">
+                            <Calendar size={20} className="session-card-icon" />
+                            <span className="session-card-label">Session Proposal</span>
+                        </div>
+                        <p className="session-card-legacy-text">{message.message.replace('🗓️ ', '')}</p>
+                        <Link to="/sessions" className="session-card-link">
+                            <ExternalLink size={14} />
+                            View in Sessions
+                        </Link>
                     </div>
-                    <p className="session-card-legacy-text">{message.message.replace('🗓️ ', '')}</p>
-                    <Link to="/sessions" className="session-card-link">
-                        <ExternalLink size={14} />
-                        View in Sessions
-                    </Link>
+                    <span className="message-time" style={{ textAlign: fromMe ? 'right' : 'left', display: 'block', marginTop: '4px' }}>
+                        {formattedTime}
+                    </span>
                 </div>
-                <span className="message-time" style={{ textAlign: fromMe ? 'right' : 'left', display: 'block', marginTop: '4px' }}>
-                    {formattedTime}
-                </span>
             </div>
         );
     }
 
     return (
         <div className={`message-wrapper ${bubbleAlignment}`}>
-            <div className={`chat-bubble ${chatBubbleClass}`}>
-                <p className="message-text">{message.message}</p>
-                <span className="message-time">{formattedTime}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start' }}>
+                <div className={`chat-bubble ${chatBubbleClass}`}>
+                    <p className="message-text">{message.message}</p>
+                </div>
+                <span className="message-time" style={{ textAlign: fromMe ? 'right' : 'left', display: 'block', marginTop: '4px' }}>
+                    {formattedTime}
+                </span>
             </div>
         </div>
     );

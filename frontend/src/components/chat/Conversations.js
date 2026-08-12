@@ -23,7 +23,11 @@ const Conversation = ({ conversation, isSelected, onSelect }) => {
             </div>
             <div className="conversation-details">
                 <p className="conversation-name">{otherParticipant.firstName} {otherParticipant.lastName}</p>
-                <p className="last-message">{conversation.lastMessage?.text || "No messages yet"}</p>
+                <p className="last-message">
+                    {conversation.lastMessage?.text?.startsWith('[SESSION_REQUEST]') 
+                        ? '📅 Proposed a session' 
+                        : (conversation.lastMessage?.text || "No messages yet")}
+                </p>
             </div>
         </div>
     );
