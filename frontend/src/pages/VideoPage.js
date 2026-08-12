@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuth';
 import { useSocket } from '../context/SocketContext';
@@ -163,11 +162,11 @@ const VideoPage = () => {
         }
     }
 
-    return createPortal(
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999, backgroundColor: '#202124', color: 'white', display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', overflow: 'hidden' }}>
+    return (
+        <div style={{ height: 'calc(100vh - 64px)' }} className="w-full flex flex-col bg-[#202124] text-white overflow-hidden font-sans relative">
             
             {/* Top Bar (Time / Session Info) */}
-            <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-50 pointer-events-none">
+            <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-10 pointer-events-none">
                 <div className="flex items-center gap-4 text-sm text-gray-300">
                     <span className="font-medium">{sessionDetails?.title || 'Session'}</span>
                     <span className="w-px h-4 bg-gray-500"></span>
@@ -235,8 +234,7 @@ const VideoPage = () => {
                     <PhoneOff size={22} />
                 </button>
             </div>
-        </div>,
-        document.body
+        </div>
     );
 };
 
