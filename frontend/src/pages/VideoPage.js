@@ -163,7 +163,7 @@ const VideoPage = () => {
     }
 
     return (
-        <div className="flex flex-col h-screen w-screen bg-[#202124] text-white overflow-hidden font-sans">
+        <div className="fixed inset-0 z-50 flex flex-col h-screen w-screen bg-[#202124] text-white overflow-hidden font-sans">
             
             {/* Top Bar (Time / Session Info) */}
             <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-50 pointer-events-none">
