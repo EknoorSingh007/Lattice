@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuth';
 
 // Page Imports
@@ -15,6 +15,9 @@ import ChatPage from './pages/ChatPage';       // New Chat Page
 import Sessions from './pages/Sessions';       // New Sessions Page
 import VideoPage from './pages/VideoPage';     // New Video Call Page
 import AboutUs from './pages/AboutUs';
+import { Toaster } from 'react-hot-toast';
+import { AnimatePresence, motion } from 'framer-motion';
+
 // Layout component to wrap pages with Navbar
 const AppLayout = ({ children }) => (
   <>
@@ -22,10 +25,6 @@ const AppLayout = ({ children }) => (
     <main>{children}</main>
   </>
 );
-
-import { Toaster } from 'react-hot-toast';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
 
 const PageTransition = ({ children }) => (
   <motion.div
