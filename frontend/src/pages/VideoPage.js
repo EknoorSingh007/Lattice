@@ -185,7 +185,7 @@ const VideoPage = () => {
                         playsInline 
                         ref={userVideo} 
                         autoPlay 
-                        className="w-full h-full object-cover" 
+                        className="w-full h-full object-contain bg-black" 
                     />
                     
                     {/* Partner Name Label */}
@@ -195,13 +195,13 @@ const VideoPage = () => {
                 </div>
 
                 {/* Self Video (PiP) */}
-                <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 w-48 lg:w-72 aspect-video rounded-xl overflow-hidden bg-[#3c4043] shadow-2xl border border-gray-600/50">
+                <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 w-48 lg:w-72 aspect-video rounded-xl overflow-hidden bg-[#3c4043] shadow-2xl border border-gray-600/50 flex justify-center items-center">
                     <video 
                         playsInline 
                         muted 
                         ref={myVideo} 
                         autoPlay 
-                        className="w-full h-full object-cover" 
+                        className="w-full h-full object-contain bg-black" 
                     />
                     
                     {/* Self Name Label */}
