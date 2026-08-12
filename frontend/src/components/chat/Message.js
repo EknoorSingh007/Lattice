@@ -55,7 +55,7 @@ const Message = ({ message }) => {
         const jsonData = message.message.replace('[SESSION_REQUEST]', '');
         return (
             <div className={`message-wrapper ${bubbleAlignment}`}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start', maxWidth: '70%' }}>
                     <SessionRequestCard data={jsonData} fromMe={fromMe} />
                     <span className="message-time" style={{ textAlign: fromMe ? 'right' : 'left', display: 'block', marginTop: '4px' }}>
                         {formattedTime}
@@ -71,7 +71,7 @@ const Message = ({ message }) => {
     if (isLegacySession) {
         return (
             <div className={`message-wrapper ${bubbleAlignment}`}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start', maxWidth: '70%' }}>
                     <div className={`session-request-card ${chatBubbleClass}`}>
                         <div className="session-card-header">
                             <Calendar size={20} className="session-card-icon" />
@@ -93,7 +93,7 @@ const Message = ({ message }) => {
 
     return (
         <div className={`message-wrapper ${bubbleAlignment}`}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: fromMe ? 'flex-end' : 'flex-start', maxWidth: '70%' }}>
                 <div className={`chat-bubble ${chatBubbleClass}`}>
                     <p className="message-text">{message.message}</p>
                 </div>
