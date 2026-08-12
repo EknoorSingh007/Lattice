@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuth';
 import { useSocket } from '../context/SocketContext';
@@ -162,8 +163,8 @@ const VideoPage = () => {
         }
     }
 
-    return (
-        <div className="fixed inset-0 z-50 flex flex-col h-screen w-screen bg-[#202124] text-white overflow-hidden font-sans">
+    return createPortal(
+        <div className="fixed inset-0 z-[9999] flex flex-col h-[100dvh] w-screen bg-[#202124] text-white overflow-hidden font-sans">
             
             {/* Top Bar (Time / Session Info) */}
             <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-50 pointer-events-none">
@@ -234,7 +235,8 @@ const VideoPage = () => {
                     <PhoneOff size={22} />
                 </button>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 
