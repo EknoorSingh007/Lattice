@@ -164,7 +164,7 @@ const VideoPage = () => {
     }
 
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex flex-col h-[100dvh] w-screen bg-[#202124] text-white overflow-hidden font-sans">
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999, backgroundColor: '#202124', color: 'white', display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', overflow: 'hidden' }}>
             
             {/* Top Bar (Time / Session Info) */}
             <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-50 pointer-events-none">
