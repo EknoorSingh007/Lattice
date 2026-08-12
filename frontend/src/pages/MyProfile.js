@@ -25,6 +25,10 @@ const MyProfile = () => {
 });
 
 
+      if (response.status === 404) {
+        navigate('/profilesetup');
+        return;
+      }
       if (!response.ok) {
         throw new Error('Failed to fetch profile');
       }
