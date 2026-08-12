@@ -163,10 +163,10 @@ const VideoPage = () => {
     }
 
     return (
-        <div style={{ height: 'calc(100vh - 64px)' }} className="w-full flex flex-col bg-[#202124] text-white overflow-hidden font-sans relative">
+        <div style={{ height: 'calc(100vh - 64px)' }} className="w-full relative bg-[#202124] text-white overflow-hidden font-sans">
             
             {/* Top Bar (Time / Session Info) */}
-            <div className="flex justify-between items-center px-6 py-4 absolute top-0 left-0 right-0 z-10 pointer-events-none">
+            <div className="absolute top-0 left-0 right-0 h-16 flex justify-between items-center px-6 z-10 pointer-events-none">
                 <div className="flex items-center gap-4 text-sm text-gray-300">
                     <span className="font-medium">{sessionDetails?.title || 'Session'}</span>
                     <span className="w-px h-4 bg-gray-500"></span>
@@ -178,7 +178,7 @@ const VideoPage = () => {
             </div>
 
             {/* Main Video Area */}
-            <div className="flex-grow flex justify-center items-center p-4 lg:p-6 pb-2 relative">
+            <div className="absolute top-16 bottom-24 left-0 right-0 p-4 lg:p-6 pb-2">
                 {/* Partner Video Container */}
                 <div className="w-full h-full relative rounded-2xl overflow-hidden bg-[#3c4043] shadow-lg flex justify-center items-center">
                     <video 
@@ -189,8 +189,9 @@ const VideoPage = () => {
                     />
                     
                     {/* Partner Name Label */}
-                    <div className="absolute bottom-4 left-4 bg-black/60 px-3 py-1.5 rounded text-sm font-medium tracking-wide">
-                        {partnerName.toUpperCase()}
+                    <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-lg flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                        <span className="text-sm font-medium">{partnerName}</span>
                     </div>
                 </div>
 
@@ -203,33 +204,32 @@ const VideoPage = () => {
                         autoPlay 
                         className="w-full h-full object-contain bg-black" 
                     />
-                    
-                    {/* Self Name Label */}
-                    <div className="absolute bottom-2 left-2 bg-black/60 px-2 py-1 rounded text-xs font-medium">
-                        YOU
+                    <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md">
+                        <span className="text-xs font-medium">You</span>
                     </div>
                 </div>
             </div>
 
             {/* Bottom Controls Bar */}
-            <div className="h-20 lg:h-24 bg-[#202124] flex items-center justify-center gap-4 px-6 z-40 shrink-0">
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-[#202124] flex items-center justify-center gap-4 px-6 z-40">
                 <button 
-                    onClick={handleToggleMute} 
-                    className={`w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center rounded-full transition-all ${isMuted ? 'bg-[#ea4335] hover:bg-[#d93025]' : 'bg-[#3c4043] hover:bg-[#4a4d51]'}`}
+                    onClick={handleToggleMute}
+                    className={`p-4 rounded-full transition-all duration-200 shadow-lg ${isMuted ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-[#3c4043] hover:bg-[#4a4d51] text-white'}`}
+                    title={!isMuted ? "Turn off microphone" : "Turn on microphone"}
                 >
-                    {isMuted ? <MicOff size={22} /> : <Mic size={22} />}
+                    {!isMuted ? <Mic size={22} /> : <MicOff size={22} />}
                 </button>
-                
                 <button 
-                    onClick={handleToggleCamera} 
-                    className={`w-12 h-12 lg:w-14 lg:h-14 flex items-center justify-center rounded-full transition-all ${isCameraOff ? 'bg-[#ea4335] hover:bg-[#d93025]' : 'bg-[#3c4043] hover:bg-[#4a4d51]'}`}
+                    onClick={handleToggleCamera}
+                    className={`p-4 rounded-full transition-all duration-200 shadow-lg ${isCameraOff ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-[#3c4043] hover:bg-[#4a4d51] text-white'}`}
+                    title={!isCameraOff ? "Turn off camera" : "Turn on camera"}
                 >
-                    {isCameraOff ? <VideoOff size={22} /> : <Video size={22} />}
+                    {!isCameraOff ? <Video size={22} /> : <VideoOff size={22} />}
                 </button>
-                
                 <button 
-                    onClick={handleHangUp} 
-                    className="h-10 lg:h-12 px-6 lg:px-8 rounded-full bg-[#ea4335] hover:bg-[#d93025] flex items-center justify-center transition-all"
+                    onClick={handleHangUp}
+                    className="p-4 px-8 rounded-full bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20 transition-all duration-200"
+                    title="Leave call"
                 >
                     <PhoneOff size={22} />
                 </button>

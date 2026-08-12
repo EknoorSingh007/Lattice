@@ -77,7 +77,7 @@ const AppRoutes = () => {
         />
          <Route 
           path="/session/:roomId" 
-          element={user ? <AppLayout><PageTransition><VideoPage /></PageTransition></AppLayout> : <Navigate to="/login" />}
+          element={user ? <AppLayout><VideoPage /></AppLayout> : <Navigate to="/login" />}
         />
         <Route path="/aboutus" element={<PageTransition><AboutUs /></PageTransition>} />
         {/* Fallback route */}
