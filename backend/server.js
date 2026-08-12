@@ -11,6 +11,7 @@ const profileRoutes = require('./routes/profileRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const authRoutes = require('./routes/authRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
+const connectionRoutes = require('./routes/connectionRoutes');
 
 const Message = require('./models/Message');
 const Conversation = require('./models/Conversation');
@@ -92,8 +93,15 @@ io.on('connection', (socket) => {
   // =========================
   socket.on('join-room', ({ roomId, userId }) => {
     socket.join(roomId);
+    socket.roomId = roomId;
+    socket.roomUserId = userId;
     console.log(`👥 ${userId} joined room ${roomId}`);
     socket.to(roomId).emit('user-connected', { userId });
+  });
+
+  socket.on('leave-room', ({ roomId, userId }) => {
+    socket.leave(roomId);
+    socket.to(roomId).emit('user-disconnected', { userId });
   });
 
   socket.on('offer', ({ roomId, sdp }) => {
@@ -110,6 +118,9 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('🔌 User disconnected:', socket.id);
+    if (socket.roomId && socket.roomUserId) {
+      socket.to(socket.roomId).emit('user-disconnected', { userId: socket.roomUserId });
+    }
     if (userId) {
       delete userSocketMap[userId];
       io.emit('getOnlineUsers', Object.keys(userSocketMap));
@@ -134,6 +145,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/session', sessionRoutes);
+app.use('/api/connections', connectionRoutes);
 // --- MongoDB + Server Init ---
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

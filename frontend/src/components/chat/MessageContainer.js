@@ -52,13 +52,14 @@ const MessageContainer = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-const handleSchedule = async (dateTime, roomId) => {
+const handleSchedule = async (title, dateTime, roomId) => {
     try {
         console.log("📤 Scheduling session:", {
             user1: user._id,
             user2: receiverId,
             dateTime: dateTime.toISOString(),
-            roomId
+            roomId,
+            title
         });
 
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/session/create`, {
@@ -71,13 +72,27 @@ const handleSchedule = async (dateTime, roomId) => {
                 user1: user._id,
                 user2: receiverId,
                 dateTime,
-                roomId
+                roomId,
+                title
             })
         });
 
         const data = await res.json();
         if (res.ok) {
-            alert('✅ Session scheduled successfully!');
+            alert('✅ Session proposed successfully!');
+            // Send automated message in chat
+            const msgRes = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/chat/send`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                },
+                body: JSON.stringify({
+                    senderId: user._id,
+                    receiverId,
+                    message: `🗓️ I proposed a session: "${title}" for ${dateTime.toLocaleString()}. Please check your Sessions page to accept it.`
+                })
+            });
         } else {
             console.error('❌ Failed to schedule session:', data.error || data.details);
             alert('Failed to schedule session.');

@@ -510,8 +510,26 @@ const Discover = () => {
         }
     }, [user, fetchProfiles]);
 
-    const handleConnect = (userId) => {
-        navigate(`/chat/${userId}`);
+    const handleConnect = async (userId) => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/connections`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ receiverId: userId })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                alert("Connection request sent successfully!");
+            } else {
+                alert(data.error || "Failed to send connection request.");
+            }
+        } catch (error) {
+            console.error("Error sending connection request:", error);
+            alert("Error sending connection request.");
+        }
     };
 
     return (

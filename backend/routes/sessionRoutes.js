@@ -7,15 +7,15 @@ router.use(requireAuth);
 
 // Create a new session
 router.post('/create', async (req, res) => {
-  const { user1, user2, dateTime, roomId } = req.body;
-    console.log("📥 Incoming session data:", { user1, user2, dateTime, roomId });
+  const { user1, user2, dateTime, roomId, title } = req.body;
+    console.log("📥 Incoming session data:", { user1, user2, dateTime, roomId, title });
 
-  if (!user1 || !user2 || !dateTime || !roomId) {
+  if (!user1 || !user2 || !dateTime || !roomId || !title) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const session = await Session.create({ user1, user2, dateTime, roomId });
+    const session = await Session.create({ user1, user2, dateTime, roomId, title, status: 'pending' });
      console.log("✅ Session created:", session);
     res.status(201).json(session);
   } catch (err) {
@@ -99,4 +99,28 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+// PUT /api/session/:id
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const session = await Session.findById(id);
+    if (!session) return res.status(404).json({ message: "Session not found" });
+
+    // Ensure the current user is a participant
+    const currentUserId = req.user._id.toString();
+    if (session.user1.toString() !== currentUserId && session.user2.toString() !== currentUserId) {
+      return res.status(403).json({ message: "Unauthorized to update this session" });
+    }
+
+    session.status = status;
+    await session.save();
+    res.status(200).json(session);
+  } catch (err) {
+    console.error("Error updating session:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

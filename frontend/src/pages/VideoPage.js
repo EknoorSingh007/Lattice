@@ -112,10 +112,19 @@ const VideoPage = () => {
             peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate)).catch(err => console.error("ICE Candidate Error:", err));
         });
 
+        socket.on('user-disconnected', () => {
+            alert("The other person has left the call.");
+            navigate('/sessions');
+        });
+
         return () => {
+            if (socket && user) {
+                socket.emit('leave-room', { roomId, userId: user._id });
+            }
             localStream.current?.getTracks().forEach(track => track.stop());
             peerConnection.current?.close();
             socket.off('user-connected');
+            socket.off('user-disconnected');
             socket.off('offer');
             socket.off('answer');
             socket.off('ice-candidate');
@@ -134,6 +143,9 @@ const VideoPage = () => {
     };
 
     const handleHangUp = () => {
+        if (socket && user) {
+            socket.emit('leave-room', { roomId, userId: user._id });
+        }
         navigate('/sessions');
     };
 

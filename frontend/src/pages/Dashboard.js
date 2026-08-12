@@ -3,12 +3,15 @@ import { Search, MessageCircle, Calendar, User, Bell, Menu, X, Star, Users, Book
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; 
 
+import { useNavigate } from 'react-router-dom';
+
 export default function LatticeDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('features');
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-    const { user, dispatch } = useContext(AuthContext);
-   const [userProfile, setUserProfile] = useState(null);
+  const { user, dispatch } = useContext(AuthContext);
+  const [userProfile, setUserProfile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -24,7 +27,10 @@ console.log("User from context:", user);
     'Authorization': `Bearer ${user.token}`  // or localStorage.getItem('userToken')
   }
 });
-
+    if (response.status === 404) {
+      navigate('/profilesetup');
+      return;
+    }
     const profileData = await response.json();
     console.log('Fetched profile data:', profileData); // 👈 Add this
 
@@ -183,6 +189,12 @@ console.log("User from context:", user);
               }`}
             >
               See It In Action
+            </button>
+            <button 
+              onClick={() => navigate('/discover')}
+              className="bg-white text-gray-700 border-2 border-purple-200 hover:border-purple-300 px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105"
+            >
+              Start Discovering
             </button>
           </div>
 

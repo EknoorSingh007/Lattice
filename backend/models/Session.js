@@ -18,9 +18,18 @@ const sessionSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  title: {
+    type: String,
+    required: true
+  },
   roomId: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'accepted', 'rejected', 'completed'],
+    default: 'pending'
   }
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt

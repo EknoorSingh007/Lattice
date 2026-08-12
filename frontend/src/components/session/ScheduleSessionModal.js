@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import './ScheduleSessionModal.css';
 
 const ScheduleSessionModal = ({ isOpen, onClose, onSchedule }) => {
+  const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
 const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (date && time) {
+    if (date && time && title) {
         const dateTime = new Date(`${date}T${time}`);
         if (isNaN(dateTime)) {
             alert("Invalid date or time");
             return;
         }
         const roomId = crypto.randomUUID();
-        onSchedule(dateTime, roomId);
+        onSchedule(title, dateTime, roomId);
         onClose();
+        setTitle('');
+        setDate('');
+        setTime('');
     }
 };
 
@@ -27,6 +31,8 @@ const handleSubmit = (e) => {
       <div className="modal-content">
         <h2>Schedule a Session</h2>
         <form onSubmit={handleSubmit}>
+          <label>Topic:</label>
+          <input type="text" placeholder="e.g. React Hooks" value={title} onChange={(e) => setTitle(e.target.value)} required />
           <label>Date:</label>
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
           <label>Time:</label>
