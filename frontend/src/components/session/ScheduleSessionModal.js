@@ -1,25 +1,39 @@
 import React, { useState } from 'react';
 import './ScheduleSessionModal.css';
 
-const ScheduleSessionModal = ({ isOpen, onClose, onSchedule }) => {
+const ScheduleSessionModal = ({ isOpen, onClose, onSchedule, connections = null }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [selectedConnection, setSelectedConnection] = useState('');
 const handleSubmit = (e) => {
     e.preventDefault();
 
     if (date && time && title) {
+        if (connections && !selectedConnection) {
+            alert("Please select a connection to schedule with.");
+            return;
+        }
+
         const dateTime = new Date(`${date}T${time}`);
         if (isNaN(dateTime)) {
             alert("Invalid date or time");
             return;
         }
         const roomId = crypto.randomUUID();
-        onSchedule(title, dateTime, roomId);
+        
+        // Pass selectedConnection if connections mode is on
+        if (connections) {
+            onSchedule(title, dateTime, roomId, selectedConnection);
+        } else {
+            onSchedule(title, dateTime, roomId);
+        }
+        
         onClose();
         setTitle('');
         setDate('');
         setTime('');
+        setSelectedConnection('');
     }
 };
 
@@ -31,6 +45,24 @@ const handleSubmit = (e) => {
       <div className="modal-content">
         <h2>Schedule a Session</h2>
         <form onSubmit={handleSubmit}>
+          {connections && (
+              <>
+                  <label>Partner:</label>
+                  <select 
+                    value={selectedConnection} 
+                    onChange={(e) => setSelectedConnection(e.target.value)} 
+                    required 
+                    className="w-full mb-4 p-2 border rounded"
+                  >
+                      <option value="" disabled>Select a connection</option>
+                      {connections.map(c => (
+                          <option key={c.otherParticipant._id} value={c.otherParticipant._id}>
+                              {c.otherParticipant.firstName} {c.otherParticipant.lastName}
+                          </option>
+                      ))}
+                  </select>
+              </>
+          )}
           <label>Topic:</label>
           <input type="text" placeholder="e.g. React Hooks" value={title} onChange={(e) => setTitle(e.target.value)} required />
           <label>Date:</label>

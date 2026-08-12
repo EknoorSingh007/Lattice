@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
-import { Video, Calendar } from 'lucide-react';
+import { Video, Calendar, Plus } from 'lucide-react';
 import { format } from 'date-fns';
+import ScheduleSessionModal from '../components/session/ScheduleSessionModal';
 
 const Sessions = () => {
     const [sessions, setSessions] = useState([]);
+    const [connections, setConnections] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isScheduleOpen, setIsScheduleOpen] = useState(false);
     const { user } = useAuthContext();
 
     useEffect(() => {
@@ -26,8 +29,23 @@ const Sessions = () => {
             }
         };
 
+        const fetchConnections = async () => {
+            try {
+                const res = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/chat/conversations`, {
+                    headers: { 'Authorization': `Bearer ${user.token}` }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    setConnections(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch connections:", error);
+            }
+        };
+
         if (user?.token) {
             fetchSessions();
+            fetchConnections();
         }
     }, [user]);
 
@@ -80,6 +98,52 @@ const Sessions = () => {
     };
 
 
+    const handleSchedule = async (title, dateTime, roomId, receiverId) => {
+        try {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/session/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                },
+                body: JSON.stringify({
+                    user1: user._id,
+                    user2: receiverId,
+                    dateTime,
+                    roomId,
+                    title
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                alert('✅ Session proposed successfully!');
+                
+                // Add locally
+                setSessions(prev => [...prev, data]);
+
+                // Send automated message in chat
+                await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/chat/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    },
+                    body: JSON.stringify({
+                        senderId: user._id,
+                        receiverId,
+                        message: `🗓️ I proposed a session: "${title}" for ${dateTime.toLocaleString()}. Please check your Sessions page to accept it.`
+                    })
+                });
+            } else {
+                alert('Failed to schedule session: ' + (data.error || ''));
+            }
+        } catch (err) {
+            console.error('🚨 Scheduling error:', err);
+            alert('Something went wrong.');
+        }
+    };
+
     if (loading) return <div className="p-8">Loading sessions...</div>;
 
     const pendingIncoming = sessions.filter(s => s.status === 'pending' && s.user2._id === user._id);
@@ -87,8 +151,17 @@ const Sessions = () => {
     const upcoming = sessions.filter(s => s.status === 'accepted');
 
     return (
-        <div className="p-8 bg-gray-50 min-h-screen">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">My Sessions</h1>
+        <div className="p-8 bg-gray-50 min-h-screen relative">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl font-bold text-gray-800">My Sessions</h1>
+                <button 
+                    onClick={() => setIsScheduleOpen(true)}
+                    className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition-colors"
+                >
+                    <Plus size={20} />
+                    Schedule Session
+                </button>
+            </div>
             
             {pendingIncoming.length > 0 && (
                 <div className="mb-8">
@@ -181,6 +254,13 @@ const Sessions = () => {
                     </div>
                  </div>
             )}
+            
+            <ScheduleSessionModal 
+                isOpen={isScheduleOpen} 
+                onClose={() => setIsScheduleOpen(false)} 
+                onSchedule={handleSchedule} 
+                connections={connections}
+            />
         </div>
     );
 };
