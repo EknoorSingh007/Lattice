@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
+const cors = require('cors');
 
 const userRoutes = require('./routes/user');
 const profileRoutes = require('./routes/profileRoutes');
@@ -118,6 +119,10 @@ io.on('connection', (socket) => {
 
 // --- Express Middleware ---
 app.use(express.json({ limit: '5mb' }));
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}));
 app.use((req, res, next) => {
   console.log(`📡 ${req.method} ${req.path}`);
   next();
