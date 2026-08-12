@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ScheduleSessionModal.css';
 
 const ScheduleSessionModal = ({ isOpen, onClose, onSchedule, connections = null }) => {
@@ -6,6 +6,13 @@ const ScheduleSessionModal = ({ isOpen, onClose, onSchedule, connections = null 
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [selectedConnection, setSelectedConnection] = useState('');
+
+  useEffect(() => {
+      if (typeof isOpen === 'string' && isOpen !== '') {
+          setSelectedConnection(isOpen);
+      }
+  }, [isOpen]);
+
 const handleSubmit = (e) => {
     e.preventDefault();
 

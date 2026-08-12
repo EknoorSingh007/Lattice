@@ -370,11 +370,11 @@ console.log("User from context:", user);
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all transform hover:scale-105 shadow-lg">
+            <button 
+              onClick={() => navigate('/discover')}
+              className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all transform hover:scale-105 shadow-lg"
+            >
               Start Learning Free
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-all transform hover:scale-105">
-              Watch Demo
             </button>
           </div>
         </div>

@@ -154,13 +154,6 @@ const Sessions = () => {
         <div className="p-8 bg-gray-50 min-h-screen relative">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold text-gray-800">My Sessions</h1>
-                <button 
-                    onClick={() => setIsScheduleOpen(true)}
-                    className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition-colors"
-                >
-                    <Plus size={20} />
-                    Schedule Session
-                </button>
             </div>
             
             {pendingIncoming.length > 0 && (
@@ -197,7 +190,7 @@ const Sessions = () => {
 
             <div className="space-y-4">
                 <h2 className="text-xl font-bold text-gray-700 mb-4">Upcoming Sessions</h2>
-                {upcoming.length === 0 && <p className="text-gray-600">No accepted sessions yet. Go to <Link to="/chat" className="text-blue-500 underline">Community</Link> to schedule one.</p>}
+                {upcoming.length === 0 && <p className="text-gray-600">No upcoming sessions yet.</p>}
                 {upcoming.map(session => {
                     const currentUserId = user._id;
                     const isUser1 = session.user1._id === currentUserId;
@@ -261,6 +254,42 @@ const Sessions = () => {
                 onSchedule={handleSchedule} 
                 connections={connections}
             />
+
+            {/* Display connections to schedule a session */}
+            <div className="mt-12">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Schedule with Connections</h2>
+                {connections.length === 0 ? (
+                    <p className="text-gray-600">You don't have any connections yet. Go to the Discover page to find partners!</p>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {connections.map(conn => {
+                            const partner = conn.otherParticipant;
+                            const profileImg = partner.profilePhoto || `https://ui-avatars.com/api/?name=${partner.firstName}+${partner.lastName}&background=random`;
+                            
+                            return (
+                                <div key={partner._id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center justify-between">
+                                    <div className="flex items-center space-x-4">
+                                        <img src={profileImg} className="w-12 h-12 rounded-full" alt="partner" />
+                                        <div>
+                                            <p className="font-semibold text-lg">{partner.firstName} {partner.lastName}</p>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        onClick={() => {
+                                            // Set the selected connection before opening modal
+                                            setIsScheduleOpen(partner._id);
+                                        }}
+                                        className="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg hover:bg-purple-200 transition-colors font-medium flex items-center gap-2"
+                                    >
+                                        <Calendar size={18} />
+                                        Schedule
+                                    </button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

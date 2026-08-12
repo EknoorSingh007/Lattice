@@ -2,6 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import { Search, MessageCircle, Calendar, User, Bell, Menu, X, Star, Users, BookOpen, ArrowRight, Zap, Globe, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function LatticeLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function LatticeLanding() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
     const { user, dispatch } = useContext(AuthContext);
    const [userProfile, setUserProfile] = useState(null);
+   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -197,7 +199,10 @@ console.log("User from context:", user);
                 Sign Up
               </button>
             </Link>
-            <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 font-medium">
+            <button 
+              onClick={() => navigate('/discover')}
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 font-medium"
+            >
               Start Learning
             </button>
           </>
@@ -433,11 +438,11 @@ console.log("User from context:", user);
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all transform hover:scale-105 shadow-lg">
+            <button 
+              onClick={() => navigate('/discover')}
+              className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all transform hover:scale-105 shadow-lg"
+            >
               Start Learning Free
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-all transform hover:scale-105">
-              Watch Demo
             </button>
           </div>
         </div>

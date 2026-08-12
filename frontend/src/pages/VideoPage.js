@@ -18,6 +18,7 @@ const VideoPage = () => {
 
     const [isMuted, setIsMuted] = useState(false);
     const [isCameraOff, setIsCameraOff] = useState(false);
+    const [sessionDetails, setSessionDetails] = useState(null);
 
     useEffect(() => {
         if (!socket || !user) return;
@@ -35,10 +36,12 @@ const VideoPage = () => {
                 }
                 const now = new Date();
                 const sessionTime = new Date(session.dateTime);
-                if (now < sessionTime) {
+                // Allow joining up to 15 minutes early
+                if (now < new Date(sessionTime.getTime() - 15 * 60000)) {
                     alert("This session hasn't started yet.");
                     return navigate('/sessions');
                 }
+                setSessionDetails(session);
             } catch (err) {
                 console.error("Error checking session time:", err);
                 alert("Could not verify session time.");
@@ -149,21 +152,39 @@ const VideoPage = () => {
         navigate('/sessions');
     };
 
+    let partnerName = "Unknown";
+    if (sessionDetails) {
+        const isUser1 = sessionDetails.user1._id === user._id;
+        const partner = isUser1 ? sessionDetails.user2 : sessionDetails.user1;
+        if (partner?.profile) {
+            partnerName = `${partner.profile.firstName} ${partner.profile.lastName}`;
+        }
+    }
+
     return (
-        <div className="video-page">
-            <div className="video-grid">
-                <video playsInline muted ref={myVideo} autoPlay className="video-player self-view" />
-                <video playsInline ref={userVideo} autoPlay className="video-player partner-view" />
+        <div className="video-page fixed inset-0 z-50 bg-gray-900">
+            {sessionDetails && (
+                <div className="absolute top-6 left-6 z-40 bg-black/50 text-white px-6 py-3 rounded-xl backdrop-blur-sm border border-white/10">
+                    <h2 className="text-2xl font-bold">{sessionDetails.title}</h2>
+                    <p className="text-gray-300 flex items-center gap-2 mt-1">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        In session with {partnerName}
+                    </p>
+                </div>
+            )}
+            <div className="video-grid h-full w-full relative">
+                <video playsInline muted ref={myVideo} autoPlay className="video-player self-view absolute bottom-24 right-6 w-48 md:w-64 aspect-video rounded-xl border-2 border-white/20 shadow-2xl z-30 object-cover bg-gray-800" />
+                <video playsInline ref={userVideo} autoPlay className="video-player partner-view w-full h-full object-cover bg-gray-900 absolute inset-0 z-10" />
             </div>
-            <div className="video-controls">
-                <button onClick={handleToggleMute} className={`control-btn ${isMuted ? 'active' : ''}`}>
-                    {isMuted ? <MicOff size={24} /> : <Mic size={24} />}
+            <div className="video-controls absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent flex justify-center items-center gap-4 z-40">
+                <button onClick={handleToggleMute} className={`control-btn p-4 rounded-full transition-all ${isMuted ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
+                    {isMuted ? <MicOff size={28} className="text-white" /> : <Mic size={28} className="text-white" />}
                 </button>
-                <button onClick={handleToggleCamera} className={`control-btn ${isCameraOff ? 'active' : ''}`}>
-                    {isCameraOff ? <VideoOff size={24} /> : <Video size={24} />}
+                <button onClick={handleToggleCamera} className={`control-btn p-4 rounded-full transition-all ${isCameraOff ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
+                    {isCameraOff ? <VideoOff size={28} className="text-white" /> : <Video size={28} className="text-white" />}
                 </button>
-                <button onClick={handleHangUp} className="control-btn hang-up">
-                    <PhoneOff size={24} />
+                <button onClick={handleHangUp} className="control-btn hang-up p-4 rounded-full bg-red-600 hover:bg-red-700 transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                    <PhoneOff size={28} className="text-white" />
                 </button>
             </div>
         </div>
