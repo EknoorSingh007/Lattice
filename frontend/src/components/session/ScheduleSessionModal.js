@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import './ScheduleSessionModal.css';
 
 const ScheduleSessionModal = ({ isOpen, onClose, onSchedule, connections = null }) => {
@@ -18,13 +19,13 @@ const handleSubmit = (e) => {
 
     if (date && time && title) {
         if (connections && !selectedConnection) {
-            alert("Please select a connection to schedule with.");
+            toast.error("Please select a connection to schedule with.");
             return;
         }
 
         const dateTime = new Date(`${date}T${time}`);
-        if (isNaN(dateTime)) {
-            alert("Invalid date or time");
+        if (isNaN(dateTime.getTime())) {
+            toast.error("Invalid date or time");
             return;
         }
         const roomId = crypto.randomUUID();

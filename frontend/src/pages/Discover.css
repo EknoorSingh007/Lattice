@@ -1,7 +1,8 @@
+/* Discover Page - Dark Mode Aware */
 .discover-container {
     padding: 2rem 4rem;
-    background-color: #f8f9fc;
-    min-height: calc(100vh - 64px);
+    background-color: var(--bg-secondary);
+    min-height: calc(100vh - var(--navbar-height));
 }
 
 .discover-header {
@@ -12,25 +13,26 @@
 .discover-header h1 {
     font-size: 2.5rem;
     font-weight: 800;
-    color: #1a1a1a;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
 .discover-header p {
     font-size: 1.125rem;
-    color: #6b7280;
+    color: var(--text-secondary);
     max-width: 600px;
     margin: 0 auto;
 }
 
 .search-filters-bar {
-    background-color: white;
-    border-radius: 1rem;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
     padding: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
 }
 
 .search-input-wrapper {
@@ -43,32 +45,36 @@
     left: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #9ca3af;
+    color: var(--text-muted);
 }
 
 .search-input {
     width: 100%;
     padding: 0.75rem 1rem 0.75rem 2.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
     font-size: 1rem;
     outline: none;
-    transition: ring 0.2s, border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
 }
 
 .search-input:focus {
     border-color: #667eea;
-    ring: 2px;
-    ring-color: #c7d2fe;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
 }
 
 .filter-select {
     padding: 0.75rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
     font-size: 1rem;
-    background-color: white;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
     min-width: 150px;
+    font-family: var(--font-primary);
 }
 
 .stats-bar {
@@ -78,6 +84,7 @@
     padding: 0.5rem 1rem;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
+    color: var(--text-secondary);
 }
 
 .discover-grid {
@@ -87,13 +94,19 @@
 }
 
 .profile-card {
-    background: white;
-    border-radius: 1rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
     padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+.profile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
 }
 
 .profile-header {
@@ -108,6 +121,7 @@
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--border-color);
 }
 
 .status-indicator {
@@ -120,37 +134,68 @@
     border-radius: 999px;
 }
 
-.status-indicator.online { color: #16a34a; background-color: #dcfce7; }
-.status-indicator.offline { color: #78716c; background-color: #f5f5f4; }
+.status-indicator.online { color: #16a34a; background-color: rgba(22, 163, 74, 0.1); }
+.status-indicator.offline { color: var(--text-muted); background-color: var(--bg-tertiary); }
 
-.profile-name { font-size: 1.25rem; font-weight: 700; }
-.profile-bio { font-size: 0.9rem; color: #6b7280; margin-bottom: 1rem; }
-.skills-section h3 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #9ca3af; margin-bottom: 0.5rem; }
+.profile-name { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+.profile-bio { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; }
+.skills-section h3 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
 .skills-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
 
-.skill-tag { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; }
-.skill-tag.teach { background-color: #eef2ff; color: #4338ca; }
-.skill-tag.learn { background-color: #dbeafe; color: #1d4ed8; }
+.skill-tag { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 500; }
+.skill-tag.teach { background-color: rgba(99, 102, 241, 0.1); color: #6366f1; }
+.skill-tag.learn { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; }
 
-.profile-footer { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; margin-bottom: 1rem; }
+[data-theme="dark"] .skill-tag.teach { background-color: rgba(99, 102, 241, 0.2); color: #a5b4fc; }
+[data-theme="dark"] .skill-tag.learn { background-color: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+
+.profile-footer { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
 
 .connect-btn {
     background: #667eea;
     color: white;
     border: none;
     padding: 0.75rem;
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     margin-top: auto;
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
 }
-.connect-btn:hover { background-color: #5a67d8; }
+.connect-btn:hover { background-color: #5a67d8; transform: translateY(-1px); }
 
-.no-results { text-align: center; grid-column: 1 / -1; padding: 4rem 0; }
-.no-results h3 { font-size: 1.5rem; font-weight: 600; }
-.no-results p { color: #6b7280; }
+.connect-btn.connected {
+    background: #16a34a;
+}
+.connect-btn.connected:hover {
+    background: #15803d;
+}
+
+.connect-btn.pending {
+    background: var(--text-muted);
+    cursor: not-allowed;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.no-results { text-align: center; grid-column: 1 / -1; padding: 4rem 0; color: var(--text-secondary); }
+.no-results h3 { font-size: 1.5rem; font-weight: 600; color: var(--text-primary); }
+.no-results p { color: var(--text-secondary); }
+
+@media (max-width: 768px) {
+    .discover-container { padding: 1rem; }
+    .discover-header h1 { font-size: 1.75rem; }
+    .discover-grid { grid-template-columns: 1fr; }
+}

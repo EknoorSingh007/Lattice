@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; // Adjust path as needed
 import { useNavigate } from 'react-router-dom'; // ⬅ Add this at the top
+import Skeleton from '../components/ui/Skeleton';
 const MyProfile = () => {
   const { user } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState(null);
@@ -57,10 +58,23 @@ const MyProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your profile...</p>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 p-8">
+        <div className="max-w-7xl mx-auto">
+            <Skeleton height="200px" className="rounded-t-xl mb-0" />
+            <div className="bg-white dark:bg-slate-800 p-8 rounded-b-xl border border-purple-100 dark:border-slate-700">
+                <div className="flex items-center space-x-6 mb-8">
+                    <Skeleton circle width="96px" height="96px" />
+                    <div>
+                        <Skeleton width="200px" height="30px" className="mb-2" />
+                        <Skeleton width="150px" height="20px" className="mb-1" />
+                        <Skeleton width="180px" height="20px" />
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <Skeleton height="300px" className="rounded-xl" />
+                    <Skeleton height="300px" className="rounded-xl" />
+                </div>
+            </div>
         </div>
       </div>
     );
@@ -68,9 +82,9 @@ const MyProfile = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-lg shadow-lg">
-          <p className="text-red-600 mb-4">Error: {error}</p>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <div className="text-center bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
+          <p className="text-red-600 dark:text-red-400 mb-4">Error: {error}</p>
           <button 
             onClick={fetchUserProfile}
             className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
@@ -83,29 +97,10 @@ const MyProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <img src="/favicon.svg" alt="Lattice" className="w-10 h-10" />
-              <span className="text-xl font-bold text-gray-800">Lattice</span>
-            </Link>
-            
-            <nav className="flex items-center space-x-6">
-              <Link to="/" className="text-gray-600 hover:text-purple-600 transition-colors">Home</Link>
-              <Link to="/discover" className="text-gray-600 hover:text-purple-600 transition-colors">Discover</Link>
-              <Link to="/chat" className="text-gray-600 hover:text-purple-600 transition-colors">Community</Link>
-              <Link to="/sessions" className="text-gray-600 hover:text-purple-600 transition-colors">Sessions</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden border border-purple-100 dark:border-slate-700">
           {/* Profile Header */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-12">
             <div className="flex items-center space-x-6">
@@ -141,15 +136,15 @@ const MyProfile = () => {
               {/* Personal Information */}
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4">Personal Information</h2>
-                  <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Personal Information</h2>
+                  <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-6 space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">Date of Birth</label>
-                      <p className="text-gray-800">{userProfile?.dateOfBirth || 'Not provided'}</p>
+                      <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Date of Birth</label>
+                      <p className="text-gray-800 dark:text-white">{userProfile?.dateOfBirth || 'Not provided'}</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">Bio</label>
-                      <p className="text-gray-800">{userProfile?.bio || 'No bio available'}</p>
+                      <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Bio</label>
+                      <p className="text-gray-800 dark:text-white">{userProfile?.bio || 'No bio available'}</p>
                     </div>
                     
                   </div>
@@ -157,38 +152,38 @@ const MyProfile = () => {
 
                 {/* Skills to Teach */}
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3">Skills I Can Teach</h3>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Skills I Can Teach</h3>
                   <div className="flex flex-wrap gap-2">
                     {userProfile?.skillsToTeach?.length > 0 ? (
                       userProfile.skillsToTeach.map((skill, index) => (
                         <span 
                           key={index}
-                          className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium"
+                          className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-3 py-1 rounded-full text-sm font-medium"
                         >
                           {skill}
                         </span>
                       ))
                     ) : (
-                      <p className="text-gray-500 italic">No teaching skills added yet</p>
+                      <p className="text-gray-500 dark:text-gray-400 italic">No teaching skills added yet</p>
                     )}
                   </div>
                 </div>
 
                 {/* Skills to Learn */}
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3">Skills I Want to Learn</h3>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Skills I Want to Learn</h3>
                   <div className="flex flex-wrap gap-2">
                     {userProfile?.skillsToLearn?.length > 0 ? (
                       userProfile.skillsToLearn.map((skill, index) => (
                         <span 
                           key={index}
-                          className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium"
+                          className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-sm font-medium"
                         >
                           {skill}
                         </span>
                       ))
                     ) : (
-                      <p className="text-gray-500 italic">No learning skills added yet</p>
+                      <p className="text-gray-500 dark:text-gray-400 italic">No learning skills added yet</p>
                     )}
                   </div>
                 </div>
@@ -196,8 +191,8 @@ const MyProfile = () => {
 
              {/* Availability */}
 <div>
-  <h2 className="text-2xl font-bold text-gray-800 mb-4">Availability</h2>
-  <div className="bg-gray-50 rounded-lg p-6">
+  <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Availability</h2>
+  <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-6">
     {formatAvailability(userProfile?.availability).length > 0 ? (
       <div className="flex flex-wrap gap-3">
         {formatAvailability(userProfile.availability).map((day, index) => (
@@ -210,7 +205,7 @@ const MyProfile = () => {
         ))}
       </div>
     ) : (
-      <p className="text-gray-500 italic">No availability set</p>
+      <p className="text-gray-500 dark:text-gray-400 italic">No availability set</p>
     )}
   </div>
 </div>

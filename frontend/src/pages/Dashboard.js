@@ -147,16 +147,16 @@ console.log("User from context:", user);
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center bg-purple-100 text-purple-700 px-6 py-2 rounded-full text-sm font-medium mb-8">
+          <div className="inline-flex items-center bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-6 py-2 rounded-full text-sm font-medium mb-8">
             <Zap className="w-4 h-4 mr-2" />
             Join 50,000+ Active Learners
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
             Learn Together,
             <br />
             <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -164,7 +164,7 @@ console.log("User from context:", user);
             </span>
           </h1>
           
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
             Connect with passionate learners worldwide. Exchange skills, share knowledge, 
             and accelerate your growth through collaborative learning experiences.
           </p>
@@ -199,18 +199,18 @@ console.log("User from context:", user);
           </div>
 
           {/* Dynamic Content Based on Tab */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-purple-100">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border border-purple-100 dark:border-slate-700">
             {activeTab === 'features' && (
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Why Choose Lattice?</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Why Choose Lattice?</h3>
                 <div className="grid md:grid-cols-3 gap-6">
                   {features.map((feature, index) => (
-                    <div key={index} className="text-center p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-blue-50 hover:shadow-lg transition-all transform hover:-translate-y-1">
+                    <div key={index} className="text-center p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-700 dark:to-slate-800 hover:shadow-lg transition-all transform hover:-translate-y-1">
                       <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl mb-4">
                         {feature.icon}
                       </div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h4>
-                      <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{feature.title}</h4>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{feature.description}</p>
                     </div>
                   ))}
                 </div>
@@ -219,21 +219,21 @@ console.log("User from context:", user);
 
             {activeTab === 'demo' && (
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Live Learning Dashboard</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Live Learning Dashboard</h3>
                 <div className="grid lg:grid-cols-2 gap-8">
                   {/* Messages Panel */}
-                  <div className="bg-gray-50 rounded-2xl p-6">
+                  <div className="bg-gray-50 dark:bg-slate-700 rounded-2xl p-6">
                     <div className="flex items-center justify-between mb-6">
-                      <h4 className="text-lg font-semibold text-gray-900 flex items-center">
-                        <MessageCircle className="w-5 h-5 mr-2 text-purple-600" />
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                        <MessageCircle className="w-5 h-5 mr-2 text-purple-600 dark:text-purple-400" />
                         Active Conversations
                       </h4>
-                      <Bell className="w-5 h-5 text-gray-400" />
+                      <Bell className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                     </div>
                     
                     <div className="space-y-4">
                       {conversations.map((conv, index) => (
-                        <div key={index} className="bg-white rounded-xl p-4 hover:shadow-md transition-all cursor-pointer border border-purple-100">
+                        <div key={index} className="bg-white dark:bg-slate-800 rounded-xl p-4 hover:shadow-md transition-all cursor-pointer border border-purple-100 dark:border-slate-600">
                           <div className="flex items-start space-x-3">
                             <div className="relative">
                               <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-blue-400 rounded-xl flex items-center justify-center text-xl">
@@ -245,11 +245,11 @@ console.log("User from context:", user);
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between mb-1">
-                                <h5 className="font-semibold text-gray-900 text-sm">{conv.name}</h5>
-                                <span className="text-xs text-gray-500">{conv.time}</span>
+                                <h5 className="font-semibold text-gray-900 dark:text-white text-sm">{conv.name}</h5>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">{conv.time}</span>
                               </div>
-                              <p className="text-xs text-purple-600 mb-2">{conv.role}</p>
-                              <p className="text-sm text-gray-600 line-clamp-2">{conv.message}</p>
+                              <p className="text-xs text-purple-600 dark:text-purple-400 mb-2">{conv.role}</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{conv.message}</p>
                             </div>
                           </div>
                         </div>
@@ -258,14 +258,14 @@ console.log("User from context:", user);
                   </div>
 
                   {/* Chat Interface */}
-                  <div className="bg-gray-50 rounded-2xl p-6">
-                    <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-gray-200">
+                  <div className="bg-gray-50 dark:bg-slate-700 rounded-2xl p-6">
+                    <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-600">
                       <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-blue-400 rounded-xl flex items-center justify-center text-xl">
                         👨‍💻
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">Alex Chen</h4>
-                        <p className="text-sm text-purple-600">Frontend Developer</p>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">Alex Chen</h4>
+                        <p className="text-sm text-purple-600 dark:text-purple-400">Frontend Developer</p>
                       </div>
                       <div className="ml-auto flex space-x-2">
                         <button className="p-2 bg-purple-100 rounded-lg hover:bg-purple-200 transition-colors">
@@ -276,9 +276,9 @@ console.log("User from context:", user);
 
                     <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                       <div className="flex justify-start">
-                        <div className="bg-white rounded-2xl rounded-tl-md px-4 py-3 max-w-xs shadow-sm border border-purple-100">
-                          <p className="text-sm text-gray-800">Hey! Ready for our React session? I prepared some advanced hooks examples.</p>
-                          <span className="text-xs text-gray-500 mt-1 block">2:30 PM</span>
+                        <div className="bg-white dark:bg-slate-800 rounded-2xl rounded-tl-md px-4 py-3 max-w-xs shadow-sm border border-purple-100 dark:border-slate-600">
+                          <p className="text-sm text-gray-800 dark:text-gray-200">Hey! Ready for our React session? I prepared some advanced hooks examples.</p>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">2:30 PM</span>
                         </div>
                       </div>
                       
@@ -290,9 +290,9 @@ console.log("User from context:", user);
                       </div>
 
                       <div className="flex justify-start">
-                        <div className="bg-white rounded-2xl rounded-tl-md px-4 py-3 max-w-xs shadow-sm border border-purple-100">
-                          <p className="text-sm text-gray-800">Great! Let's start with a practical example. useReducer is perfect for complex state logic.</p>
-                          <span className="text-xs text-gray-500 mt-1 block">2:35 PM</span>
+                        <div className="bg-white dark:bg-slate-800 rounded-2xl rounded-tl-md px-4 py-3 max-w-xs shadow-sm border border-purple-100 dark:border-slate-600">
+                          <p className="text-sm text-gray-800 dark:text-gray-200">Great! Let's start with a practical example. useReducer is perfect for complex state logic.</p>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">2:35 PM</span>
                         </div>
                       </div>
                     </div>
@@ -301,7 +301,7 @@ console.log("User from context:", user);
                       <input 
                         type="text" 
                         placeholder="Type your message..."
-                        className="flex-1 bg-white border border-purple-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="flex-1 bg-white dark:bg-slate-800 dark:text-white border border-purple-200 dark:border-slate-600 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                       <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-2 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all">
                         <ArrowRight className="w-4 h-4" />
@@ -316,18 +316,18 @@ console.log("User from context:", user);
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-16 px-4 bg-white dark:bg-slate-900">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12">What Our Community Says</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-12">What Our Community Says</h2>
           
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-3xl p-8 mb-8">
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-slate-800 dark:to-slate-800 rounded-3xl p-8 mb-8 border border-slate-100 dark:border-slate-700">
             <div className="flex justify-center mb-4">
               {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
                 <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
               ))}
             </div>
             
-            <blockquote className="text-xl text-gray-700 italic mb-6 leading-relaxed">
+            <blockquote className="text-xl text-gray-700 dark:text-gray-300 italic mb-6 leading-relaxed">
               "{testimonials[currentTestimonial].content}"
             </blockquote>
             
@@ -336,8 +336,8 @@ console.log("User from context:", user);
                 {testimonials[currentTestimonial].avatar}
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{testimonials[currentTestimonial].name}</p>
-                <p className="text-purple-600 text-sm">{testimonials[currentTestimonial].role}</p>
+                <p className="font-semibold text-gray-900 dark:text-white">{testimonials[currentTestimonial].name}</p>
+                <p className="text-purple-600 dark:text-purple-400 text-sm">{testimonials[currentTestimonial].role}</p>
               </div>
             </div>
           </div>

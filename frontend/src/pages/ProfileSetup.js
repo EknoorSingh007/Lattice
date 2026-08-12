@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Camera, Plus, X, MapPin, Save, ArrowLeft } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 
 export default function ProfileSetup() {
   const navigate = useNavigate();
@@ -124,15 +125,15 @@ export default function ProfileSetup() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        alert(`❌ Failed: ${errorData.error || 'Unknown error'}`);
+        toast.error(`Failed: ${errorData.error || 'Unknown error'}`);
         return;
       }
 
-      alert('✅ Profile saved successfully!');
-      navigate('/');
+      toast.success('Profile saved successfully!');
+      setTimeout(() => navigate('/profile'), 1500);
     } catch (err) {
       console.error('Error:', err);
-      alert(`❌ Submission error: ${err.message}`);
+      toast.error(`Submission error: ${err.message}`);
     }
   };
 

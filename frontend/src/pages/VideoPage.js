@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuth';
 import { useSocket } from '../context/SocketContext';
 import { Mic, MicOff, Video, VideoOff, PhoneOff } from 'lucide-react';
+import toast from 'react-hot-toast';
 import './VideoPage.css';
 
 const VideoPage = () => {
@@ -31,20 +32,20 @@ const VideoPage = () => {
                 const data = await res.json();
                 const session = data.find(s => s.roomId === roomId);
                 if (!session) {
-                    alert("Session not found.");
+                    toast.error("Session not found.");
                     return navigate('/sessions');
                 }
                 const now = new Date();
                 const sessionTime = new Date(session.dateTime);
                 // Allow joining up to 15 minutes early
                 if (now < new Date(sessionTime.getTime() - 15 * 60000)) {
-                    alert("This session hasn't started yet.");
+                    toast.error("This session hasn't started yet.");
                     return navigate('/sessions');
                 }
                 setSessionDetails(session);
             } catch (err) {
                 console.error("Error checking session time:", err);
-                alert("Could not verify session time.");
+                toast.error("Could not verify session time.");
                 return navigate('/sessions');
             }
         };
@@ -116,7 +117,7 @@ const VideoPage = () => {
         });
 
         socket.on('user-disconnected', () => {
-            alert("The other person has left the call.");
+            toast('The other person has left the call.', { icon: '👋' });
             navigate('/sessions');
         });
 

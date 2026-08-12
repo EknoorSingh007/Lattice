@@ -1,43 +1,4 @@
-// import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// import Home from './pages/LandingPage';
-// import Signup from './pages/Signup';
-// import Login from './pages/Login';
-// import ProfileSetup from './pages/ProfileSetup'; // ✅ Make sure this path is correct
-// import { useAuthContext } from './hooks/useAuth';
-// import MyProfile from './pages/MyProfile';
-// import DiscoverPage from './pages/Discover';
-// import CommunityPage from './pages/CommunityPage';
-// import ResourcesPage   from './pages/ResourcesPage';
-// import SessionsPage from './pages/SessionsPage';
-// function App() {
-//   const { user } = useAuthContext();
 
-//   return (
-//     <div className="App">
-//       <BrowserRouter>
-//         <div className="pages">
-//           <Routes>
-//             {/* Public routes */}
-//             <Route path="/login" element={<Login />} />
-//             <Route path="/signup" element={<Signup />} />
-//             <Route path="/profile" element={<MyProfile />} />
-//             <Route path="/discover" element={<DiscoverPage />} />
-//             <Route path="/community" element={<CommunityPage />} />
-//             <Route path="/sessions" element={<SessionsPage />} />
-//             <Route path="/resources" element={<ResourcesPage />} />
-
-//             {/* Protected routes */}
-//             <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
-//             <Route path="/profilesetup" element={user ? <ProfileSetup /> : <Navigate to="/login" />} />
-            
-//           </Routes>
-//         </div>
-//       </BrowserRouter>
-//     </div>
-//   );
-// }
-
-// export default App;
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuth';
 
@@ -62,52 +23,77 @@ const AppLayout = ({ children }) => (
   </>
 );
 
-function App() {
+import { Toaster } from 'react-hot-toast';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
+
+const PageTransition = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -10 }}
+    transition={{ duration: 0.2 }}
+  >
+    {children}
+  </motion.div>
+);
+
+const AppRoutes = () => {
   const { user } = useAuthContext();
+  const location = useLocation();
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          {/* Public routes that are only accessible when logged out */}
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-          <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/profilesetup" />} />
-          <Route path="/landing" element={!user ? <LandingPage /> : <Navigate to="/" />} />
-           <Route path="/profile" element={<MyProfile />} />
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Public routes that are only accessible when logged out */}
+        <Route path="/login" element={!user ? <PageTransition><Login /></PageTransition> : <Navigate to="/" />} />
+        <Route path="/signup" element={!user ? <PageTransition><Signup /></PageTransition> : <Navigate to="/profilesetup" />} />
+        <Route path="/landing" element={!user ? <AppLayout><PageTransition><LandingPage /></PageTransition></AppLayout> : <Navigate to="/" />} />
+        <Route path="/profile" element={user ? <AppLayout><PageTransition><MyProfile /></PageTransition></AppLayout> : <Navigate to="/login" />} />
 
-          {/* Protected Routes - a layout with Navbar will be applied */}
-          <Route 
-            path="/" 
-            element={user ? <AppLayout><Dashboard /></AppLayout> : <Navigate to="/landing" />} 
-          />
-          <Route 
-            path="/profilesetup" 
-            element={user ? <ProfileSetup /> : <Navigate to="/login" />}
-          />
-          <Route 
-            path="/discover" 
-            element={user ? <AppLayout><Discover /></AppLayout> : <Navigate to="/login" />} 
-          />
-           <Route 
-            path="/chat" 
-            element={user ? <AppLayout><ChatPage /></AppLayout> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/chat/:receiverId" 
-            element={user ? <AppLayout><ChatPage /></AppLayout> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/sessions" 
-            element={user ? <AppLayout><Sessions /></AppLayout> : <Navigate to="/login" />}
-          />
-           <Route 
-            path="/session/:roomId" 
-            element={user ? <AppLayout><VideoPage /></AppLayout> : <Navigate to="/login" />}
-          />
-          <Route path="/aboutus" element={<AboutUs />} />
-          {/* Fallback route */}
-          <Route path="*" element={<Navigate to={user ? "/" : "/landing"} />} />
-        </Routes>
+        {/* Protected Routes - a layout with Navbar will be applied */}
+        <Route 
+          path="/" 
+          element={user ? <AppLayout><PageTransition><Dashboard /></PageTransition></AppLayout> : <Navigate to="/landing" />} 
+        />
+        <Route 
+          path="/profilesetup" 
+          element={user ? <PageTransition><ProfileSetup /></PageTransition> : <Navigate to="/login" />}
+        />
+        <Route 
+          path="/discover" 
+          element={user ? <AppLayout><PageTransition><Discover /></PageTransition></AppLayout> : <Navigate to="/login" />} 
+        />
+         <Route 
+          path="/chat" 
+          element={user ? <AppLayout><PageTransition><ChatPage /></PageTransition></AppLayout> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/chat/:receiverId" 
+          element={user ? <AppLayout><PageTransition><ChatPage /></PageTransition></AppLayout> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/sessions" 
+          element={user ? <AppLayout><PageTransition><Sessions /></PageTransition></AppLayout> : <Navigate to="/login" />}
+        />
+         <Route 
+          path="/session/:roomId" 
+          element={user ? <AppLayout><PageTransition><VideoPage /></PageTransition></AppLayout> : <Navigate to="/login" />}
+        />
+        <Route path="/aboutus" element={<PageTransition><AboutUs /></PageTransition>} />
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to={user ? "/" : "/landing"} />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+function App() {
+  return (
+    <div className="App">
+      <Toaster position="top-right" />
+      <BrowserRouter>
+        <AppRoutes />
       </BrowserRouter>
     </div>
   );

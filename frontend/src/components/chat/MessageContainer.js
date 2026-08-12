@@ -6,6 +6,7 @@ import Message from './Message';
 import MessageInput from './MessageInput';
 import { MessageSquare, Calendar } from 'lucide-react';
 import ScheduleSessionModal from '../session/ScheduleSessionModal';
+import toast from 'react-hot-toast';
 
 const MessageContainer = () => {
     const [messages, setMessages] = useState([]);
@@ -79,37 +80,37 @@ const handleSchedule = async (title, dateTime, roomId) => {
 
         const data = await res.json();
         if (res.ok) {
-            alert('✅ Session proposed successfully!');
-            // Send automated message in chat
-            const msgRes = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/chat/send`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user.token}`
-                },
-                body: JSON.stringify({
-                    senderId: user._id,
-                    receiverId,
-                    message: `🗓️ I proposed a session: "${title}" for ${dateTime.toLocaleString()}. Please check your Sessions page to accept it.`
-                })
-            });
+            toast.success('Session proposed successfully!');
+            // Send structured session message in chat
+            const sessionMsg = `[SESSION_REQUEST]${JSON.stringify({ title, dateTime: dateTime.toISOString() })}`;
+            const msgPayload = {
+                senderId: user._id,
+                receiverId,
+                message: sessionMsg
+            };
+            // Send via socket for real-time
+            if (socket) {
+                socket.emit('sendMessage', msgPayload);
+            }
+            // Add locally
+            setMessages(prev => [...prev, { ...msgPayload, createdAt: new Date().toISOString() }]);
         } else {
             console.error('❌ Failed to schedule session:', data.error || data.details);
-            alert('Failed to schedule session.');
+            toast.error('Failed to schedule session.');
         }
     } catch (err) {
         console.error('🚨 Scheduling error:', err);
-        alert('Something went wrong.');
+        toast.error('Something went wrong.');
     }
 };
 
 
     if (!receiverId) {
         return (
-            <div className="no-chat-selected">
-                <MessageSquare size={80} className="text-gray-300" />
-                <h2 className="text-2xl font-semibold text-gray-500 mt-4">Select a chat to start messaging</h2>
-                <p className="text-gray-400">Connect with partners from the Discover page.</p>
+            <div className="no-chat-selected flex flex-col items-center justify-center h-full">
+                <MessageSquare size={80} className="text-gray-300 dark:text-gray-600 mb-4" />
+                <h2 className="text-2xl font-semibold text-gray-500 dark:text-gray-400 mt-4">Select a chat to start messaging</h2>
+                <p className="text-gray-400 dark:text-gray-500 mt-2">Connect with partners from the Discover page.</p>
             </div>
         );
     }

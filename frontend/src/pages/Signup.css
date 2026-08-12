@@ -4,20 +4,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--accent-gradient);
   padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-primary);
+}
+
+[data-theme="dark"] .signup-container {
+  background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
 }
 
 .signup-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  background: var(--bg-card);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-xl);
   padding: 40px;
   width: 100%;
   max-width: 420px;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .signup-card::before {
@@ -27,7 +32,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: var(--accent-gradient);
 }
 
 .signup-header {
@@ -36,7 +41,7 @@
 }
 
 .signup-header h2 {
-  color: #1a1a1a;
+  color: var(--text-primary);
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 8px;
@@ -44,7 +49,7 @@
 }
 
 .signup-header p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 16px;
   margin: 0;
   line-height: 1.5;
@@ -63,7 +68,7 @@
 }
 
 .form-group label {
-  color: #333;
+  color: var(--text-secondary);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.5px;
@@ -72,26 +77,28 @@
 
 .form-group input {
   padding: 16px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   font-size: 16px;
   transition: all 0.2s ease;
-  background-color: #fafbfc;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #667eea;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
 }
 
 .form-group input::placeholder {
-  color: #999;
+  color: var(--text-muted);
 }
 
 .signup-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--accent-gradient);
   color: white;
   border: none;
   padding: 18px 24px;
@@ -105,6 +112,7 @@
   justify-content: center;
   gap: 8px;
   margin-top: 8px;
+  font-family: var(--font-primary);
 }
 
 .signup-btn:hover:not(:disabled) {
@@ -112,14 +120,9 @@
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
 }
 
-.signup-btn:active:not(:disabled) {
-  transform: translateY(0);
-}
-
 .signup-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
 }
 
 .spinner {
@@ -137,9 +140,9 @@
 }
 
 .error-message {
-  background-color: #fef2f2;
+  background-color: var(--error-bg);
   border: 1px solid #fecaca;
-  color: #dc2626;
+  color: var(--error);
   padding: 12px 16px;
   border-radius: 8px;
   font-size: 14px;
@@ -149,19 +152,82 @@
   margin-top: -8px;
 }
 
+[data-theme="dark"] .error-message {
+  border-color: #7f1d1d;
+  color: #fca5a5;
+}
+
 .error-icon {
   font-size: 16px;
+}
+
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.oauth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-input);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+}
+
+.oauth-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.oauth-btn:hover {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-md);
+  border-color: #667eea;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.divider:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .25em;
 }
 
 .signup-footer {
   text-align: center;
   margin-top: 32px;
   padding-top: 24px;
-  border-top: 1px solid #e1e5e9;
+  border-top: 1px solid var(--border-color);
 }
 
 .signup-footer p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
   margin: 0;
 }
@@ -178,28 +244,6 @@
   text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-  .signup-container {
-    padding: 16px;
-  }
-  
-  .signup-card {
-    padding: 24px;
-  }
-  
-  .signup-header h2 {
-    font-size: 24px;
-  }
-  
-  .form-group input {
-    padding: 14px;
-  }
-  
-  .signup-btn {
-    padding: 16px 20px;
-  }
-}
 .password-wrapper {
   position: relative;
   width: 100%;
@@ -207,7 +251,7 @@
 
 .password-wrapper input {
   width: 100%;
-  padding-right: 40px; /* Space for the icon */
+  padding-right: 40px;
   box-sizing: border-box;
 }
 
@@ -217,74 +261,13 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #666;
-}
-/* ... (keep all existing styles from the top) ... */
-
-.form-group input::placeholder {
-  color: #999;
+  color: var(--text-muted);
 }
 
-.signup-btn {
-  /* ... */
+@media (max-width: 480px) {
+  .signup-container { padding: 16px; }
+  .signup-card { padding: 24px; }
+  .signup-header h2 { font-size: 24px; }
+  .form-group input { padding: 14px; }
+  .signup-btn { padding: 16px 20px; }
 }
-
-/* Add these new styles for OAuth buttons and divider */
-
-.oauth-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.oauth-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center content */
-  gap: 12px;
-  padding: 14px;
-  border: 2px solid #e1e5e9;
-  border-radius: 12px;
-  background: #f9fafb;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 15px;
-  transition: all 0.2s ease;
-}
-
-.oauth-btn img {
-  width: 20px;
-  height: 20px;
-}
-
-.oauth-btn:hover {
-  background-color: white;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #ccc;
-    margin-bottom: 24px;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.divider:not(:empty)::before {
-    margin-right: .25em;
-}
-
-.divider:not(:empty)::after {
-    margin-left: .25em;
-}
-
-
-/* ... (keep all other existing styles from .signup-btn:hover down to the end) ... */
