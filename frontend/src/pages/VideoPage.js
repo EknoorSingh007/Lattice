@@ -163,7 +163,7 @@ const VideoPage = () => {
     }
 
     return (
-        <div className="video-page fixed inset-0 z-50 bg-gray-900">
+        <div className="video-page fixed inset-0 z-50 bg-gray-900 text-white overflow-hidden">
             {sessionDetails && (
                 <div className="absolute top-6 left-6 z-40 bg-black/50 text-white px-6 py-3 rounded-xl backdrop-blur-sm border border-white/10">
                     <h2 className="text-2xl font-bold">{sessionDetails.title}</h2>
@@ -178,13 +178,13 @@ const VideoPage = () => {
                 <video playsInline ref={userVideo} autoPlay className="video-player partner-view w-full h-full object-cover bg-gray-900 absolute inset-0 z-10" />
             </div>
             <div className="video-controls absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent flex justify-center items-center gap-4 z-40">
-                <button onClick={handleToggleMute} className={`control-btn p-4 rounded-full transition-all ${isMuted ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
+                <button onClick={handleToggleMute} className={`control-btn w-16 h-16 flex items-center justify-center rounded-full transition-all ${isMuted ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
                     {isMuted ? <MicOff size={28} className="text-white" /> : <Mic size={28} className="text-white" />}
                 </button>
-                <button onClick={handleToggleCamera} className={`control-btn p-4 rounded-full transition-all ${isCameraOff ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
+                <button onClick={handleToggleCamera} className={`control-btn w-16 h-16 flex items-center justify-center rounded-full transition-all ${isCameraOff ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-600/80 hover:bg-gray-500/80'}`}>
                     {isCameraOff ? <VideoOff size={28} className="text-white" /> : <Video size={28} className="text-white" />}
                 </button>
-                <button onClick={handleHangUp} className="control-btn hang-up p-4 rounded-full bg-red-600 hover:bg-red-700 transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                <button onClick={handleHangUp} className="control-btn hang-up w-16 h-16 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-700 transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                     <PhoneOff size={28} className="text-white" />
                 </button>
             </div>
